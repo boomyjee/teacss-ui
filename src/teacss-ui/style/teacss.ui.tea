@@ -1,0 +1,188 @@
+.teacss_ui_icon {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    background: url(@{tea.dir}images/teacss_ui_icon.png);
+    top: 5px;
+    left: 5px;
+    display: none;
+    cursor: pointer;
+    z-index: 1000000;
+}
+
+
+.teacss-ui {
+    .reset();
+    
+    .teacss-ui-dialog .ui-dialog {
+        font-size: 12px !important;
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        bottom: 0;
+    }
+    
+    .teacss-ui-dialog fieldset {
+        margin-bottom: 5px;
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+    
+    .teacss-ui-dialog fieldset legend {
+        font: inherit !important;
+        border: none !important;
+        color: inherit !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: inherit;
+    }
+    
+    .colorpicker input {
+        width: inherit;
+    }
+    
+    .teacss-ui-dialog.align-left .ui-dialog {
+        top: 0 !important;
+        left: 0 !important;
+        bottom: 0 !important;
+    }
+    
+    .teacss-ui-dialog .ui-dialog .ui-dialog-content {
+        position: absolute;
+        height: auto !important;
+        top: 30px;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        padding: 0;
+    }
+    
+    .teacss-ui-dialog.align-left .ui-dialog > .ui-accordion {
+        height: 100%;
+    }
+    
+    .composer-panel {
+        background: #eee;
+        position: absolute;
+        left: 0;
+        right: 2px;
+        width: auto !important;
+        top: 0;
+        bottom: 0;
+        padding: 0px 0px;
+        color: #000;
+    }
+    
+    .composer-panel.ui-accordion .ui-accordion-content {
+        padding: 5px 5px 5px 5px;
+        //height: auto !important;
+    }
+    
+    .composer-panel h3 {
+        font-weight: bold;
+    }
+    
+    .color_control {
+        background: url('images/colorpicker_background.png') -14px -15px;
+        border: 1px solid black;
+    }
+    
+    .button-select-panel {
+        color: #000;
+        font-size: 12px !important;
+        cursor: pointer;
+        background: white;
+        border: 1px solid #ccc;
+        position: fixed !important;
+    }
+    
+    .button-select-panel > div > .combo-item:hover {
+        background: #aaa;
+    }
+    
+    > .colorpicker {
+        position: fixed !important;
+    }
+    
+    .colorpicker_submit {
+        display: none;
+    }
+    
+    .combo-group {
+        padding: 5px;
+        background: #ccc !important;
+    }
+    
+    .combo-item {
+        padding: 5px;
+    }
+    
+    .combo-item img, .combo-sprite {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    
+    .combo-item.selected {
+        background: #f90 !important;
+    }
+    
+    .combo-label {
+        padding-left: 10px;
+    }
+    
+    .combo-icon {
+        display: table-cell;
+        text-align: center;
+        line-height: 0;
+        vertical-align: middle;
+    }
+    
+    .combo-centered .combo-item {
+        text-align: center;
+    }
+    
+    .combo-centered .combo-item .combo-label {
+        padding: 0;
+    }
+    
+    .icon-button {
+        padding: 2px !important;
+    }
+    
+    .icon-button span.ui-button-text {
+        background: white;
+        text-align: left;
+        padding: 0px !important;
+    }
+    
+    .icon-button .combo-item {
+        padding: 0;
+    }
+    
+    .only-icons .combo-item {
+        padding: 5px;
+        display: inline-block;
+        text-align: center;
+    }
+    
+    .only-icons .combo-item .combo-label {
+        padding: 0;
+    }
+    
+    .ui-label {
+        padding: 5px;
+    }
+    
+    .ui-label.ui-disabled {
+        opacity: 0.35;
+    }
+    
+    .ui-sorter fieldset > div {
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        color: #1C94C4;
+        background: white;
+        padding: 2px;
+        text-align: center;
+    }    
+}
