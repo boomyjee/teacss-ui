@@ -1,6 +1,6 @@
 (function (){
-if (typeof teacss=="undefined")
-    teacss = {functions:{}};
+if (typeof teacss=="undefined") teacss = {functions:{}};
+if (teacss.ui) return;
 teacss.jQuery = teacss.functions.$ = jQuery.noConflict();
 teacss.ui = teacss.functions.ui = {
     forms: {},
@@ -47,22 +47,15 @@ teacss.ui = teacss.functions.ui = {
             }
         }
         return layer;
-    },
-    group : function (title,name) {
-        name = name || ("group"+this.counter++);
-        if (!this.groups[name]) {
-            this.groups[name] = {name:name,title:title,fieldsets:{}};
-        }
-        this.activeGroup = name;
-        return name;
-    },
-    fieldset : function (title) {
-        if (!this.activeGroup) { return; }
-        var group = this.groups[this.activeGroup];
-        var name = "fieldset"+this.counter++;
-        group.fieldsets[name] = {title:title,params:{}};
-        this.activeFieldset = name;
-        return name;
     }
 }
+    
+teacss.ui.layer = (function ($) {
+    var layer = $("<div id='teacss-layer' class='teacss-ui'></div>");
+    $(function(){
+        $("body").append(layer);
+    });
+    return layer;
+})(teacss.jQuery);
+    
 })();

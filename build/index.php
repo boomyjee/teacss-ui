@@ -1,31 +1,27 @@
 <?
-    require $_SERVER['DOCUMENT_ROOT']."/apps/boomyjee/bingo/trunk/bingo.php";
-    \Cloud::setup(array('db' => false,'run' => false, 'applicationMode' => 'development'));
+    require $_SERVER['DOCUMENT_ROOT']."/apps/boomyjee/uxcandy_api/trunk/php/uxcandy.php";
 ?>
 <html>
     <head>
         <title>teacss-ui</title>
+        <script tea="../src/teacss-ui.tea"></script>
+        <script src="/apps/boomyjee/teacss/contexts/lib/teacss.js"></script>
     </head>
     <body>
-        <script tea="../src/teacss-ui.tea"></script>
-        <?=\Cloud::owner_panel() ?>
+        <?
+            $uxcandy = new \UXCandyAPI();
+            echo $uxcandy->owner_panel(false);
+        ?>
         Build page for teacss-ui in uxCandy platform.<br>
-        You'll see and extra ui if you're the project owner.<br>
         <br>
-        
-        <? if (\Cloud::$owner==\Cloud::$user): ?>
-            <script>
-                function build() {
-                    var ui = teacss.build("../src/teacss-ui.tea",
-                                          "../src/teacss-ui/style/teacss-ui",false);
-                    FileApi.root = "<?= \Cloud::$user.'/'.\Cloud::$app ?>";
-                    var r1 = parent.FileApi.save("/trunk/lib/teacss-ui.js",ui.js);
-                    var r2 = parent.FileApi.save("/trunk/lib/teacss-ui.css",ui.css);
-                    alert(r1+' '+r2);
-                }
-            </script>
-            <button onclick='build();'>Build <b>teacss-ui</b></button>
-        
-        <? endif ?>
+        <script>
+            teacss.buildCallback = function (files) {
+                console.debug(files);
+                FileApi.root = uxcandy.owner+'/'+uxcandy.app;
+                var r1 = FileApi.save("/"+uxcandy.version+"/lib/teacss-ui.js",files['/default.js']);
+                var r2 = FileApi.save("/"+uxcandy.version+"/lib/teacss-ui.css",files['/default.css']);
+                alert(r1+' '+r2);
+            }
+        </script>
     </body>
 </html>

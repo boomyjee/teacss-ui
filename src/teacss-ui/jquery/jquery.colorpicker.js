@@ -430,7 +430,10 @@
 						if (options.flat) {
 							cal.appendTo(this).show();
 						} else {
-							cal.appendTo(document.body);
+                            if ($("#teacss-layer").length)
+                                cal.appendTo("#teacss-layer");
+                            else
+                                cal.appendTo(document.body);
 						}
 						options.fields = cal
 											.find('input')

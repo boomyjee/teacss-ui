@@ -153,6 +153,7 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
             .button({label:this.getLabel(),icons:this.options.icons})
             .click(function(e){
                 if (!me.enabled) return;
+                var $ = teacss.jQuery;
 
                 me.itemsArray();
                 me.trigger("open");
@@ -174,8 +175,11 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                     panelPos = {left:off.left,top: off.top+me.element.height()+3}
                 else
                     panelPos = {left:off.left + me.element.width()+3,top: off.top}
+                        
+                if (panelPos.top+me.panel.height()>$(window).height()) {
+                    panelPos.top = $(window).height() - me.panel.height();
+                }
 
-                // TODO: Adjust top for panel to fit the screen
                 me.panel.css({
                     left:panelPos.left,
                     top: panelPos.top - teacss.jQuery(window).scrollTop(),
@@ -210,7 +214,15 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
     itemsArray: function () {
         var me = this;
         if (teacss.jQuery.isFunction(me.items)) {
-            me.items = me.items();
+            if (me.form) {
+                var items = [];
+                var e = teacss.ui.Control.events.bind("init",function(data,item){  items.push(item); });
+                me.items = me.items();
+                teacss.ui.Control.events.unbind(e);
+                for (var i=0;i<items.length;i++) me.form.registerItem(items[i]);
+            } else {
+                me.items = me.items();
+            }
             me.refresh();
         }
         return me.items;

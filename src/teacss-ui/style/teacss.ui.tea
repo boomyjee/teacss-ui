@@ -10,9 +10,33 @@
     z-index: 1000000;
 }
 
+#teacss-layer {
+    position: fixed;
+    width: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
 
 .teacss-ui {
     .reset();
+    
+    .ui-tabs-nav > li > .ui-icon-close {
+        float: left; 
+        margin: 0.6em 0.2em 0 0; 
+        cursor: pointer;
+    }
+    
+    .teacss-ui-dialog .ui-dialog-titlebar {
+        font-size: 13px;
+        line-height: 18px;
+        padding: 5px 10px;
+        border: 0;
+    }
+    
+    .teacss-ui-dialog .ui-dialog-titlebar .ui-dialog-title {
+        margin: 0;
+    }
     
     .teacss-ui-dialog .ui-dialog {
         font-size: 12px !important;
@@ -20,6 +44,9 @@
         top: 0;
         left: 0;
         bottom: 0;
+        padding: 0;
+        margin: 0;
+        border: 0;
     }
     
     .teacss-ui-dialog fieldset {
