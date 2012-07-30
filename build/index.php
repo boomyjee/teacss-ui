@@ -1,26 +1,27 @@
 <?
-    require $_SERVER['DOCUMENT_ROOT']."/apps/boomyjee/uxcandy_api/trunk/php/uxcandy.php";
+if (isset($_POST['css'])) {
+    file_put_contents(realpath(__DIR__."/../lib")."/teacss-ui.js",$_POST['js']);
+    file_put_contents(realpath(__DIR__."/../lib")."/teacss-ui.css",$_POST['css']);
+    echo 'ok';
+    die();
+}
 ?>
 <html>
     <head>
         <title>teacss-ui</title>
         <script tea="../src/teacss-ui.tea"></script>
-        <script src="/apps/boomyjee/teacss/contexts/lib/teacss.js"></script>
+        <script src="http://code.jquery.com/jquery-1.7.2.js"></script>
+        <script src="../../teacss/lib/teacss.js"></script>
     </head>
     <body>
-        <?
-            $uxcandy = new \UXCandyAPI();
-            echo $uxcandy->owner_panel(false);
-        ?>
-        Build page for teacss-ui in uxCandy platform.<br>
+        Build page for teacss-ui<br>
         <br>
         <script>
             teacss.buildCallback = function (files) {
                 console.debug(files);
-                FileApi.root = uxcandy.owner+'/'+uxcandy.app;
-                var r1 = FileApi.save("/"+uxcandy.version+"/lib/teacss-ui.js",files['/default.js']);
-                var r2 = FileApi.save("/"+uxcandy.version+"/lib/teacss-ui.css",files['/default.css']);
-                alert(r1+' '+r2);
+                $.post(location.href,{css:files['/default.css'],js:files['/default.js']},function(data){
+                    alert(data);
+                });
             }
         </script>
     </body>

@@ -1,9 +1,9 @@
-teacss.ui.Control = teacss.ui.eventTarget.extend("teacss.ui.Control",{
+teacss.ui.Control = teacss.ui.control = teacss.ui.eventTarget.extend("teacss.ui.Control",{
     events: new teacss.ui.eventTarget()
 },{
     value: false,
     element: false,
-    
+
     change: function (func) {
         if (func) this.bind('change',func); else this.trigger('change');
     },

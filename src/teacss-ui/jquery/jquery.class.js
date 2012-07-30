@@ -508,7 +508,7 @@
 				// All construction is actually done in the init method
 				if ( initializing ) return;
 
-				if ( this.constructor !== Class && arguments.length ) { //we are being called w/o new
+				if ( this.constructor !== Class || this._constructed ) { //we are being called w/o new
                     function construct(constructor, args) {
                         function F() {
                             return constructor.apply(this, args);
@@ -518,7 +518,9 @@
                     }
                     return construct(arguments.callee,arguments);
 				} else { //we are being called w/ new
-					return this.Class.newInstance.apply(this.Class, arguments)
+					var obj = this.Class.newInstance.apply(this.Class, arguments)
+                    obj._constructed = true;
+                    return obj;
 				}
 			}
 			// Copy old stuff onto class
