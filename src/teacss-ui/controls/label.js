@@ -4,6 +4,7 @@ teacss.ui.label = teacss.ui.Label = teacss.ui.Control.extend("teacss.ui.Label",{
         this.update();
     },
     init : function(options) {
+        if (typeof(options)=='string') options = {value:options};
         this._super(teacss.jQuery.extend({
             'text-align':'left',
             template: "${value}"

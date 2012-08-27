@@ -78,6 +78,7 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
             comboHeight: 300,
             comboDirection: 'default',
             closeOnSelect: true,
+            inline: false,
             itemTpl:[
                 "{{if group}}",
                   "<div class='combo-group'>${group}</div>",
@@ -136,6 +137,37 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                 width: this.options.comboWidth,
                 'z-index': 10000
             })
+            .data("combo",this);
+            
+        if (this.options.inline) {
+            this.options.closeOnSelect = false;
+            this.element = teacss.jQuery("<div>")
+                .addClass('button-select-panel inline')
+                .data("combo",this)
+                .css({
+                    width: this.options.width,
+                    height: this.options.height,
+                    margin: this.options.margin
+                })
+                .append(this.itemPanel = teacss.jQuery("<div>"))
+                
+            if (this.options.width!="auto" && this.options.height!="auto")
+                this.element.addClass("fixed");
+                
+            if (options.panelClass) me.itemPanel.addClass(options.panelClass);
+
+            setTimeout(function(){
+                me.itemsArray();
+                me.trigger("open");
+                me.selected_on_open = me.selected;
+                me.setSelected();
+                me.bind("setValue",function(value){
+                    me.selected_on_open = me.selected;
+                    me.setSelected();
+                });
+            },1);
+            return;
+        }
 
         this.itemPanel = teacss.jQuery("<div>")
             .css({
@@ -144,7 +176,7 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                 'overflow-y': 'auto'
             })
             .appendTo(this.panel);
-
+        
         this.element = teacss.jQuery("<div>")
             .css({width:this.options.width=='100%' ? 'auto' : this.options.width,
                   'vertical-align':'bottom',margin:this.options.margin,
@@ -187,7 +219,7 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                     "z-index":maxZ + 1,
                     width: me.options.comboWidth || (me.element).width()
                 })
-            })
+            });
 
         this.setEnabled(this.options.enabled);
         if (options.buttonClass) me.element.addClass(options.buttonClass);
@@ -197,8 +229,10 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
         me.panel.mousedown(function(e){
             me.panelClick = true;
             var combo = me;
-            while (combo.parentCombo) {
-                combo = combo.parentCombo;
+            var parent;
+            
+            while (parent = combo.getParentCombo()) {
+                combo = parent;
                 combo.panelClick = true;
             }
         });
@@ -210,6 +244,9 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                 me.panelClick = false;
             });
         })
+    },
+    getParentCombo: function () {
+        return this.element.parents(".button-select-panel").eq(0).data("combo");
     },
     itemsArray: function () {
         var me = this;
@@ -260,7 +297,10 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                     }).mouseleave(function(){
                         if (!me.options.preview) return;
                         leaveTimeout = setTimeout(function() {
-                            me.value = (me.selected_on_open.value==undefined) ? me.selected_on_open:me.selected_on_open.value;
+                            if (me.selected_on_open && me.selected_on_open.value!==undefined)
+                                me.value = me.selected_on_open.value;
+                            else
+                                me.value = me.selected_on_open;
                             me.change();
                         },1);
                     })
@@ -285,7 +325,7 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
     getLabel : function() {
         return this.options.label || teacss.jQuery.tmpl(
                 this.options.labelTpl || this.options.itemTpl,
-                teacss.jQuery.extend({},this.options.itemData,this.selected)
+                teacss.jQuery.extend({value:this.value},this.options.itemData,this.selected)
         );
     },
     hide : function(e) {

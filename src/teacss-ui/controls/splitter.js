@@ -15,17 +15,16 @@ teacss.ui.splitter = teacss.ui.Splitter = (function($){
                 })
                 .draggable({
                     axis: "x",
-                    drag: function (e,ui) {
+                    stop: function (e,ui) {
                         me.setValue(ui.position.left);
                         me.trigger("change");
                     },
                     iframeFix: true
                 })
-                .dblclick(function(){
-                    me.update((me.element.offset().left<10) ? 300:0);
-                })
           
             this.setValue(this.options.value);
+            this.options.panels[0].element.addClass("fixed");
+            this.options.panels[1].element.addClass("fixed");
         },
         setValue: function (x) {
             var setPosition = function (ctl,pos) {
@@ -34,7 +33,7 @@ teacss.ui.splitter = teacss.ui.Splitter = (function($){
                     position: 'absolute',display: 'block'
                 },pos));
             }
-            
+                
             this.options.position = x;
             setPosition(this.options.panels[0],{bottom:0,width:x});
             setPosition(this.options.panels[1],{bottom:0,left:x+this.element.width(),right:0});

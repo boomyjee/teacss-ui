@@ -40,11 +40,15 @@ teacss.ui = teacss.functions.ui = {
         for (; i < path.length; i++) {
             if (value != null && i + 1 === path.length)
                 layer[path[i]] = this.clone(value);
-            layer = layer[path[i]];
-            if (layer==undefined) {
-                //console.debug('error!',path);
-                break;
+            var next = layer[path[i]];
+            if (next==undefined) {
+                if (value!==undefined) {
+                    layer[path[i]] = next = {};
+                } else {
+                    return undefined;
+                }
             }
+            layer = next;
         }
         return layer;
     }

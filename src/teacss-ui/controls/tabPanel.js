@@ -7,11 +7,13 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
         this._super($.extend({
             height: '100%'
         },options));
+        
         // structure for ui.tabs
         this.element.css({
             height: this.options.height,
             position: 'relative'
         });
+        
         this.element.append("<ul></ul>");
         this.element.tabs({
             select: function (e,ui) { 
@@ -111,7 +113,7 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
         this.element.tabs("add",'#'+id,tab.options.caption || tab.options.label || "Tab "+this.Class.tabIndex);
         this.element.find('#'+id).append(tab.element).data("tab",tab);
         
-        tab.element.css({position: 'absolute', display: 'block', top: 0, bottom: 0, right: 0, left: 0, margin: 0});
+        tab.element.css({width:'100%',height:'100%', margin: 0});
         
         tab.options.nested = true;
         tab.options.id = id;

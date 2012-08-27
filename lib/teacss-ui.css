@@ -843,6 +843,24 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
     border: 1px solid #ccc;
     position: fixed !important;
 }
+.teacss-ui .button-select-panel.inline {
+    position: relative !important;
+    display: inline-block;
+    border: none;
+    overflow: auto;
+}
+.teacss-ui .button-select-panel.inline > div {
+    width: 100%;
+    margin: 0;
+}
+.teacss-ui .button-select-panel.inline.fixed > div {
+    position: absolute;
+    width: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
 .teacss-ui .button-select-panel > div > .combo-item:hover {
     background: #aaa;
 }
@@ -913,4 +931,19 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
     background: white;
     padding: 2px;
     text-align: center;
+}
+.teacss-ui .ui-tabs {
+    -moz-box-sizing: border-box;
+    font-size: 12px !important;
+}
+.teacss-ui .ui-tabs > .ui-tabs-panel {
+    padding: 0;
+    overflow: hidden;
+}
+.teacss-ui .ui-tabs.fixed > .ui-tabs-panel {
+    position: absolute;
+    top: 34px;
+    bottom: 0;
+    right: 0;
+    left: 0;
 }

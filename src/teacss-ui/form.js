@@ -1,24 +1,32 @@
 teacss.ui.form = teacss.ui.Form = teacss.ui.eventTarget.extend({
-    init: function (f) {
+    init: function (f,value) {
         this._super();
+        this.value = value || {};
         
         this.items = [];
         var me = this;
-        var e = teacss.ui.Control.events.bind("init",function(data,item){  me.items.push(item); });
+        var e = teacss.ui.Control.events.bind("init",function(data,item){ me.items.push(item); });
         f.call(this);
         teacss.ui.Control.events.unbind(e);
         
         for (var i=0;i<this.items.length;i++) {
             var item = this.items[i];
-            item.form = me;
-            if (item.options.name!==undefined) {
-                item.change(function(){ me.itemChanged(this); });
-                item.setValue(me.prop(item.options.name));
-            }
-            if (item.options.formChange) {
-                item.options.formChange.call(item,false,'',me.value);
-            }
+            this.registerItem(item);
         }        
+    },
+    
+    registerItem: function(item) {
+        var me = this;
+        item.form = me;
+        item.trigger("formRegister");
+        if (item.options.name!==undefined) {
+            item.change(function(){ me.itemChanged(this); });
+            item.setValue(me.prop(item.options.name));
+        }
+        if (item.options.formChange) {
+            item.options.formChange.call(item,false,'',me.value);
+        }
+        
     },
     
     prop : function(path, value) {
@@ -53,7 +61,7 @@ teacss.ui.form = teacss.ui.Form = teacss.ui.eventTarget.extend({
                 ) {
                     var val = this.prop(ctl.options.name);
                     ctl.setValue(val);
-                    if (!control) this.prop(ctl.options.name,ctl.getValue());
+                    //if (!control) this.prop(ctl.options.name,ctl.getValue());
                 }
             }
             if (ctl!=control && ctl.options.formChange) ctl.options.formChange.call(ctl,control,name,value);

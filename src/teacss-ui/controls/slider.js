@@ -2,7 +2,7 @@
 teacss.ui.slider = teacss.ui.Slider = teacss.ui.Control.extend("teacss.ui.Slider",{},{
     setValue: function (value) {
         this.value = value;
-        this.element.slider("value",value);
+        this.element.slider("value",(value===undefined) ? this.options.min : Number(value));
     },
     init : function(options) {
         var me = this;
@@ -11,7 +11,7 @@ teacss.ui.slider = teacss.ui.Slider = teacss.ui.Control.extend("teacss.ui.Slider
             max: 100,
             step: 1
         },options));
-        this.value = options.value;
+        this.value = (this.options.value===undefined) ? this.options.min : Number(this.options.value);
 
         this.element = teacss.jQuery("<div>")
             .css({

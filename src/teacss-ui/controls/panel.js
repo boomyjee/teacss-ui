@@ -3,16 +3,19 @@ teacss.ui.panel = teacss.ui.Panel = teacss.ui.Control.extend("teacss.ui.Panel",{
         if (typeof(options)=='string') options = {label:options};
         this._super(teacss.jQuery.extend({
             'text-align':'left',
-            items: []
+            items: [],
+            elementTag: "div"
         },options));
-        this.element = teacss.jQuery("<div>")
+        this.element = teacss.jQuery("<"+this.options.elementTag+">")
             .css({
                 display: 'inline-block',
                 width: this.options.width,
                 height: this.options.height,
                 'text-align': this.options['text-align'],
                 margin: this.options.margin
-            })
+            });
+        
+        if (this.options.width!='auto' && this.options.height!='auto') this.element.addClass("fixed");
             
         this.items = [];
         this.push(this.options.items);

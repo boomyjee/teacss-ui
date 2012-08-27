@@ -102,6 +102,23 @@
         position: fixed !important;
     }
     
+    .button-select-panel.inline {
+        position: relative !important;
+        display: inline-block;
+        border: none;
+        overflow: auto;
+    }
+    
+    .button-select-panel.inline > div {
+        width: 100%; margin: 0;
+    }
+    
+    .button-select-panel.inline.fixed > div {
+        position: absolute;
+        width: auto;
+        left: 0; right: 0; top: 0; bottom: 0;
+    }
+    
     .button-select-panel > div > .combo-item:hover {
         background: #aaa;
     }
@@ -190,5 +207,21 @@
         background: white;
         padding: 2px;
         text-align: center;
+    }    
+    
+    .ui-tabs {
+        -moz-box-sizing: border-box;
+        font-size: 12px !important;
+    }
+    
+    .ui-tabs > .ui-tabs-panel {
+        padding: 0;
+        overflow: hidden;
+    }
+    
+    .ui-tabs.fixed > .ui-tabs-panel {
+        position: absolute;
+        top: 34px; bottom: 0;
+        right: 0; left: 0;
     }    
 }
