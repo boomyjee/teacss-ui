@@ -36,5 +36,20 @@ teacss.ui.Control = teacss.ui.control = teacss.ui.eventTarget.extend("teacss.ui.
     disable: function() { this.setEnabled(false) },
 
     getValue : function() { return this.value; },
-    setValue:  function(value) { this.value = value; this.trigger("setValue"); }
+    setValue:  function(value) { this.value = value; this.trigger("setValue"); },
+    
+    visibility: function (f) {
+        var control = this;
+        var cb = function(){
+            if (f.call(this))
+                control.element.show();
+            else
+                control.element.hide();
+        }
+        setTimeout(function() {
+            control.form.bind("change",cb);
+            cb.call(control.form);
+        },1);
+        return this;
+    }    
 })

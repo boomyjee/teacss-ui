@@ -35,6 +35,7 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
                 h.width(item.width()+2);
                 return h;
             },
+            distance: 3,
             sort: function (event, ui) {
                 var that = $(this),
                 w = ui.helper.outerWidth();
