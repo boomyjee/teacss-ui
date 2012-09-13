@@ -18,8 +18,10 @@ if (isset($_POST['css'])) {
         <br>
         <script>
             teacss.buildCallback = function (files) {
-                console.debug(files);
-                $.post(location.href,{css:files['/default.css'],js:files['/default.js']},function(data){
+                var dir = teacss.path.absolute("../src/teacss-ui/style")+"/";
+                var css = files['/default.css'];
+                while (css.indexOf(dir)!=-1) css = css.replace(dir,"");
+                $.post(location.href,{css:css,js:files['/default.js']},function(data){
                     alert(data);
                 });
             }
