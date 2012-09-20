@@ -57,15 +57,6 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
             stop: function (e, ui) {
                 $(this).children().css('width','');
             },
-            update: function () {
-                var container = $(this); // ul
-                var panel;
-                $(this).children().each(function() {
-                    panel = $($(this).find('a').attr('href'));
-                    panel.insertAfter(container);
-                    container = panel; // div
-                });
-            },
             containment: 'parent'
         });
         
@@ -105,7 +96,7 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
             this.element.tabs("remove","#"+tab.options.id);
         }
     },
-    addTab: function (tab) {
+    addTab: function (tab,index) {
         if (!(tab instanceof teacss.ui.Control)) tab = teacss.ui.panel(tab);
         var id = 'tab' + teacss.ui.tabPanel.tabIndex++;
         
@@ -115,7 +106,7 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
             tabTemplate = "<li><a href='#{href}'>#{label}</a></li>"
         }
         this.element.tabs("option","tabTemplate",tabTemplate);
-        this.element.tabs("add",'#'+id,tab.options.caption || tab.options.label || "Tab "+teacss.ui.tabPanel.tabIndex);
+        this.element.tabs("add",'#'+id,tab.options.caption || tab.options.label || "Tab "+teacss.ui.tabPanel.tabIndex,index);
         this.element.find('#'+id).append(tab.element).data("tab",tab);
         
         tab.element.css({width:'100%',height:'100%', margin: 0});
