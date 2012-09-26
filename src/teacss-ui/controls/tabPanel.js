@@ -16,12 +16,16 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
         
         this.element.append("<ul></ul>");
         this.element.tabs({
+            add: function (e,ui) {
+                setTimeout(function(){
+                    $(ui.panel).find(".ui-accordion").accordion("resize");
+                },1);
+            },
             select: function (e,ui) { 
                 var tab = $(ui.panel).data("tab");
                 if (tab) {
                     tab.trigger("select",tab);
                 	me.trigger("select",tab);
-                    
                     setTimeout(function(){
                         tab.element.find(".ui-accordion").accordion("resize");
                     },1);
@@ -130,6 +134,6 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
     selectedTab: function () {
         var sel = this.element.tabs("option","selected");
         if (sel<0) return false;
-        return this.element.find("> div").eq(sel).data("tab");
+        return this.element.find("> div.ui-tabs-panel").eq(sel).data("tab");
     }
 });

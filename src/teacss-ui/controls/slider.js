@@ -9,7 +9,9 @@ teacss.ui.slider = teacss.ui.Slider = teacss.ui.Control.extend("teacss.ui.Slider
         this._super(teacss.jQuery.extend({
             min: 0,
             max: 100,
-            step: 1
+            step: 1,
+            orientation: 'horizontal',
+            height: false
         },options));
         this.value = (this.options.value===undefined) ? this.options.min : Number(this.options.value);
 
@@ -17,7 +19,8 @@ teacss.ui.slider = teacss.ui.Slider = teacss.ui.Control.extend("teacss.ui.Slider
             .css({
                 display: (me.options.width=='auto') ? 'block' : 'inline-block',
                 'vertical-align':'bottom',
-                width: me.options.width,
+                width: (me.options.orientation=='horizontal') ? me.options.width:'',
+                height: (me.options.orientation=='vertical') ? me.options.height:'',
                 margin: me.options.margin
             })
             .slider({
@@ -25,6 +28,7 @@ teacss.ui.slider = teacss.ui.Slider = teacss.ui.Control.extend("teacss.ui.Slider
                 max:me.options.max,
                 step: me.options.step,
                 value:me.value,
+                orientation: me.options.orientation,
                 slide: function(e,ui) {
                     me.value = ui.value;
                     me.trigger("change");
