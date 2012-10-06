@@ -211,6 +211,10 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                 if (panelPos.top+me.panel.height()>$(window).height()) {
                     panelPos.top = $(window).height() - me.panel.height();
                 }
+                
+                if (panelPos.left+me.panel.width()>$(window).width()) {
+                    panelPos.left = $(window).width() - me.panel.width();
+                }
 
                 me.panel.css({
                     left:panelPos.left,
