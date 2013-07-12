@@ -113,7 +113,7 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
         this.element.tabs("add",'#'+id,tab.options.caption || tab.options.label || "Tab "+teacss.ui.tabPanel.tabIndex,index);
         this.element.find('#'+id).append(tab.element).data("tab",tab);
         
-        tab.element.css({width:'100%',height:'100%', margin: 0});
+        tab.element.css({width:'100%',height:'100%', margin: 0,display:'block'});
         
         tab.options.nested = true;
         tab.options.id = id;

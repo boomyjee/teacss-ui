@@ -145,9 +145,11 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                 .addClass('button-select-panel inline')
                 .data("combo",this)
                 .css({
-                    width: this.options.width,
+                    width:this.options.width=='100%' ? 'auto' : this.options.width,
                     height: this.options.height,
-                    margin: this.options.margin
+                    margin: this.options.margin,
+                    'vertical-align':'bottom',
+                    display:this.options.width=='100%' ? 'block' : 'inline-block'
                 })
                 .append(this.itemPanel = teacss.jQuery("<div>"))
                 
