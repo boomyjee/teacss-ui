@@ -301,7 +301,7 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                 }
                 item.options.nested = true;
             } else {
-                var el = tpl.call(this,item,me.options.itemData);
+                var el = teacss.jQuery(tpl.call(this,item,me.options.itemData));
                 if (!el) continue;
                 el.data("item",item);
                 if (!item.disabled) {
@@ -346,10 +346,16 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
         }
     },
     getLabel : function() {
-        return this.options.label || teacss.jQuery.tmpl(
-                this.options.labelTpl || this.options.itemTpl,
-                teacss.jQuery.extend({value:this.value},this.options.itemData,this.selected)
-        );
+        if (this.options.label) return this.options.label;
+        var tpl = this.options.labelTpl;
+        if (!tpl) tpl = this.options.itemTpl;
+        if (tpl) {
+            var item = teacss.jQuery.extend({value:this.value},this.options.itemData,this.selected);
+            if (tpl.call)
+                return tpl.call(this,item);
+            else
+                return teacss.jQuery.tmpl(tpl,item);
+        }
     },
     hide : function(e) {
         this.panel.css("display","none");
