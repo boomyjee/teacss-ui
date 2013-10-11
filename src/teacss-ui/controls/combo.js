@@ -61,6 +61,7 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                         && me.selected_on_open
                         && value_equals(item.value,me.selected_on_open.value)
                      )
+                  || (item.default && me.selected_on_open.value===undefined)
                  )
                ) {
                 teacss.jQuery(this).addClass("selected");
