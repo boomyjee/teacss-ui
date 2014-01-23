@@ -68,7 +68,7 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
         this.element.on("click","span.ui-icon-close", function(){
             var href = $(this).prev().attr("href");
             var tab = me.element.find(href).data("tab");
-            me.closeTab(tab);
+            if (tab) me.closeTab(tab);
         });
     },
     

@@ -21,7 +21,14 @@ teacss.ui.switcher = teacss.ui.control.extend({
                 me.options.types = [];
                 for (var key in me.options.repository) {
                     if (me.options.repository.hasOwnProperty(key) && key!="shortName") {
-                        me.options.types.push(key);
+                        var cls = me.options.repository[key];
+                        if (
+                            (cls && typeof(cls)=="string")
+                            || (cls && cls.extend)
+                            || (cls && $.isPlainObject(cls) && cls.items)
+                        ) {
+                            me.options.types.push(key);
+                        }
                     }
                 }
             }
@@ -127,6 +134,7 @@ teacss.ui.switcher = teacss.ui.control.extend({
         this.innerForm.setValue(value);
     }
 })
+
     
 teacss.ui.switcherCombo = teacss.ui.combo.extend({
     init: function (options) {
@@ -175,16 +183,18 @@ teacss.ui.switcherCombo = teacss.ui.combo.extend({
     },
     getLabel: function() {
         this.options.repository = this.options.repository || this.Class;
-        if (this.value && this.value.type 
-            && this.options.repository[this.value.type] 
-            && this.options.repository[this.value.type].switcherLabel) 
+        
+        var type = 'default';
+        if (this.value && this.value.type) type = this.value.type;
+        
+        if (this.options.repository[type] 
+            && this.options.repository[type].switcherLabel) 
         {
-            return this.options.labelPlain + ": " +
-                this.options.repository[this.value.type].switcherLabel(this.value,this);
+            var ret = $(this.options.repository[type].switcherLabel(this.value,this));
+            if (this.options.labelPlain)
+                ret = $(document.createTextNode(this.options.labelPlain + ": ")).add(ret);
+            return ret;
         }
         return this._super();
-    },
-    updateLabel: function () {
-        this.element.button("option",{label:this.getLabel()});
     }
 })

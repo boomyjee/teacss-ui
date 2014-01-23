@@ -1,12 +1,14 @@
 teacss.ui.composite = teacss.ui.panel.extend({
 },{
     init: function (o) {
+        
+        var items = o.items;
         this._super($.extend({
-            width: 'auto', margin: 0, table: false, skipForm: false
-        },o));
+            width: '100%', margin: 0, table: false, skipForm: false
+        },o,{items:[]}));
+        this.options.items = items;
         
-        this.element.css({width:'auto',display:'block'}).addClass("ui-composite");
-        
+        this.element.addClass("ui-composite");
         var me = this;
         
         if (me.options.table) {
@@ -24,7 +26,24 @@ teacss.ui.composite = teacss.ui.panel.extend({
         }
         
         function createControls() {
-            $.each(me.options.items,function(){
+            
+            if (!me.options.items) return;
+            if (me.options.items.call) 
+                me.options.items = me.options.items.call(this);
+            
+            $.each(me.options.items,function(i,val){
+                if (typeof(val)=="string" || val instanceof String) {
+                    me.push(
+                        teacss.ui.label({template:val,width:"100%",margin:0})
+                    );
+                    return;
+                }
+                
+                if (val instanceof teacss.ui.control) {
+                    me.push(val);    
+                    return;
+                }
+                
                 var cls = teacss.ui[this.type];
                 if (cls) {
                     var margin = me.table ? 0 : "0 0 10px 0";
@@ -44,15 +63,15 @@ teacss.ui.composite = teacss.ui.panel.extend({
                     }
                     
                     var ctl = new cls($.extend({width:"100%",margin:margin},this));
-
-                    var label = false;
-                    if (this.label && !this.hideLabel) {
-                        label = teacss.ui.label({template:this.label,width:"100%"});
+                    var tableLabel = false;
+                        
+                    if (this.tableLabel && me.table) {
+                        tableLabel = teacss.ui.label({template:this.tableLabel,width:"100%"});
                     }
                     
                     if (me.table) {
                         me.table.append($("<tr>").append(
-                            $("<td class='ui-composite-label'>").append(label ? label.element : null),                        
+                            $("<td class='ui-composite-label'>").append(tableLabel ? tableLabel.element : null),                        
                             $("<td class='ui-composite-control'>").append(ctl.element)
                         ));
                         
@@ -66,11 +85,10 @@ teacss.ui.composite = teacss.ui.panel.extend({
                         }
                         
                     } else {
-                        if (label)me.push(label);
                         me.push(ctl);
                     }
                 } else {
-                    console.debug("teacss.ui.composer, can't find type: ",this.type);
+                    console.debug("teacss.ui.composer, can't find type: ",this.type,this);
                 }
             });
         };

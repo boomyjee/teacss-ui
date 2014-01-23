@@ -4,7 +4,8 @@ teacss.ui.panel = teacss.ui.Panel = teacss.ui.Control.extend("teacss.ui.Panel",{
         this._super(teacss.jQuery.extend({
             'text-align':'left',
             items: [],
-            elementTag: "div"
+            elementTag: "div",
+            padding: 0
         },options));
         this.element = teacss.jQuery("<"+this.options.elementTag+">")
             .css({
@@ -12,7 +13,12 @@ teacss.ui.panel = teacss.ui.Panel = teacss.ui.Control.extend("teacss.ui.Panel",{
                 width: this.options.width,
                 height: this.options.height,
                 'text-align': this.options['text-align'],
-                margin: this.options.margin
+                margin: this.options.margin,
+                padding: this.options.padding,
+                verticalAlign: 'bottom',
+                '-moz-box-sizing':'border-box',
+                '-webkit-box-sizing':'border-box',
+                'box-sizing':'border-box'
             });
         
         if (this.options.width!='auto' && this.options.height!='auto') this.element.addClass("fixed");
@@ -41,6 +47,10 @@ teacss.ui.panel = teacss.ui.Panel = teacss.ui.Control.extend("teacss.ui.Panel",{
             if (what instanceof teacss.ui.Control) {
                 this.element.append(what.element);
                 what.options.nested = true;
+                
+                if (this.options.layout) {
+                    what.element.css(this.options.layout);
+                }
             } else {
                 this.element.append(what);
             }

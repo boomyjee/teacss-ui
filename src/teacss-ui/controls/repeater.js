@@ -3,7 +3,8 @@ teacss.ui.repeater = teacss.ui.panel.extend({
         var me = this;
         this._super($.extend({
             width: '100%',
-            addLabel: 'Add Element'
+            addLabel: 'Add Element',
+            hashValue: false
         },o));
         
         this.element.addClass("ui-repeater");
@@ -22,6 +23,7 @@ teacss.ui.repeater = teacss.ui.panel.extend({
         this.container = $("<div>").addClass("ui-repeater-container");
         this.footer = $("<div>").addClass("ui-repeater-footer").append(this.addButton);
         
+        this.element.css({overflowY:"auto"});
         this.element.append(this.pagination, this.container, this.footer);
     },
     
@@ -109,22 +111,45 @@ teacss.ui.repeater = teacss.ui.panel.extend({
     },
     
     getValue: function () {
+        var me = this;
         var val = [];
+        if (me.options.hashValue) val = {};
         this.pagination.children().each(function(){
             var el = $(this).data("element");
-            if (el) val.push(el.getValue());
+            if (el) {
+                if (me.options.hashValue) {
+                    var sub = el.getValue() || {};
+                    var key = sub.key;
+                    if (key) {
+                        val[key] = sub.value;
+                    }
+                } else {
+                    val.push(el.getValue());
+                }
+            }
         });
         return val;
     },
     
     setValue: function (val) {
+        var me = this;
         this.pagination.empty();
         this.container.empty();
-        val = val || [];
+        
+        if (me.options.hashValue) {
+            val = val || [];
+        } else {
+            val = val || {};
+        }
+        
         var me = this;
         var first;
-        $.each(val,function(i){
-            var el = me.addElement(this);
+        $.each(val,function(i,sub){
+            if (me.options.hashValue) {
+                var el = me.addElement({key:i,value:sub});
+            } else {
+                var el = me.addElement(this);
+            }
             if (i==0) first = el;
         });
         if (first) first.select();

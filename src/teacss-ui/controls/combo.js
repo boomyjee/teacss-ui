@@ -22,7 +22,10 @@ function value_equals(y,x) {
 }
 
 teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
-    list:[]
+    list:[],
+    value_equals: function (y,x) {
+        return value_equals(y,x);
+    }
 },{
     setValue: function(value) {
         this.value = value;
@@ -37,14 +40,14 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                 found = true;
                 break;
             }
-            if (value===item || value_equals(value,item.value)) {
+            if (value===item || this.Class.value_equals(item.value,value)) {
                 this.selected = item;
                 found = true;
                 break;
             }
         }
         if (!found) this.selected = {value:value};
-        this.element.button("option",{label:this.getLabel()});
+        this.updateLabel();
         if (this.panel.css("display")!="none") {
             this.selected_on_open = this.selected;
             this.setSelected();
@@ -59,7 +62,7 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                  (item===me.selected_on_open
                   || (item.value!=undefined
                         && me.selected_on_open
-                        && value_equals(item.value,me.selected_on_open.value)
+                        && me.Class.value_equals(item.value,me.selected_on_open.value)
                      )
                   || (item.default && me.selected_on_open.value===undefined)
                  )
@@ -185,7 +188,7 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                   'vertical-align':'bottom',margin:this.options.margin,
                   display:this.options.width=='100%' ? 'block' : 'inline-block'
              })
-            .button({label:this.getLabel(),icons:this.options.icons})
+            .button({label:"-",icons:this.options.icons})
             .click(function(e){
                 if (!me.enabled) return;
                 var $ = teacss.jQuery;
@@ -208,7 +211,6 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                         if (z>maxZ) maxZ = z;
                     }
                 }
-                me.setSelected();
 
                 var panelPos;
                 if (me.options.comboDirection!='right')
@@ -230,8 +232,11 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                     display: "",
                     "z-index":maxZ + 1,
                     width: me.options.comboWidth || (me.element).width()
-                })
+                });
+                
+                me.setSelected();
             });
+        this.updateLabel();
 
         this.setEnabled(this.options.enabled);
         if (options.buttonClass) me.element.addClass(options.buttonClass);
@@ -239,6 +244,7 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
 
         me.panelClick = false;
         me.panel.add(me.element).mousedown(function(e){
+            if (e.which!=1) return;
             me.panelClick = true;
             var combo = me;
             var parent;
@@ -251,7 +257,8 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
         if (!teacss.jQuery.isFunction(me.items)) me.refresh();
         teacss.jQuery(function(){
             me.panel.appendTo(teacss.ui.layer);
-            teacss.jQuery(document).mousedown(function(){
+            teacss.jQuery(document).mousedown(function(e){
+                if (e.which!=1) return;
                 if (!me.panelClick) me.hide();
                 me.panelClick = false;
             });
@@ -329,22 +336,31 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                         },1);
                     })
                     el.mousedown(function(e){
-                        me.selected = teacss.jQuery(this).data("item");
-                        me.element.button("option",{label:me.getLabel()});
-                        me.value = (me.selected.value===undefined) ? me.selected : me.selected.value;
-                        me.selected_on_open = me.selected;
-
-                        if (me.options.closeOnSelect)
-                            me.hide();
-                        else
-                            me.setSelected();
-
-                        me.change();
+                        if (e.which!=1) return;
+                        me.selectItem(this);
                     })
                 }
             }
             me.itemPanel.append(el);
         }
+    },
+    selectItem: function (item) {
+        var me = this;
+        me.selected = teacss.jQuery(item).data("item");
+        me.value = (me.selected.value===undefined) ? me.selected : me.selected.value;
+        me.selected_on_open = me.selected;
+        
+        if (me.options.closeOnSelect)
+            me.hide();
+        else
+            me.setSelected();
+
+        me.change();
+        me.updateLabel();
+    },
+    updateLabel: function () {
+        if (this.options.inline) return;
+        this.element.find("> .ui-button-text").empty().append(this.getLabel());
     },
     getLabel : function() {
         if (this.options.label) return this.options.label;

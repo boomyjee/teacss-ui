@@ -12,7 +12,8 @@ teacss.ui.fieldset = teacss.ui.Fieldset = teacss.ui.Panel.extend({
             var wrap = $("<div>")
                 .css({
                     display: 'inline-block',
-                    width: what.element[0].style.width || '100%'
+                    width: what.options.width || '100%',
+                    verticalAlign: 'bottom'
                 });
             
             wrap.append(what.element);

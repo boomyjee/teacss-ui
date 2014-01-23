@@ -1,5 +1,5 @@
 teacss.ui.Control.events.bind("init",function(data,item){ 
-    if (teacss.ui.form.activeForm) teacss.ui.form.activeForm.items.push(item); 
+    if (teacss.ui.form.activeForm) teacss.ui.form.activeForm.newItems.push(item); 
 });
 
 teacss.ui.form = teacss.ui.Form = teacss.ui.eventTarget.extend({
@@ -9,15 +9,18 @@ teacss.ui.form = teacss.ui.Form = teacss.ui.eventTarget.extend({
         this._super();
         this.value = value || {};
         this.items = [];
-        var me = this;
-
+        this.registerItems(f);
+    },
+    
+    registerItems: function (f) {
+        this.newItems = [];
         var old_active = teacss.ui.form.activeForm;
         teacss.ui.form.activeForm = this;
         f.call(this);
         teacss.ui.form.activeForm = old_active;
         
-        for (var i=0;i<this.items.length;i++) {
-            var item = this.items[i];
+        for (var i=0;i<this.newItems.length;i++) {
+            var item = this.newItems[i];
             this.registerItem(item);
         }        
     },
@@ -25,6 +28,7 @@ teacss.ui.form = teacss.ui.Form = teacss.ui.eventTarget.extend({
     registerItem: function(item) {
         if (item.form) return;
         var me = this;
+        me.items.push(item);
         item.form = me;
         item.trigger("formRegister");
         if (item.options.name!==undefined) {
