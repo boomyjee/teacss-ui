@@ -1,5 +1,6 @@
+(function ($,ui){
+
 $.widget("ui.sortable", $.extend({}, $.ui.sortable.prototype, {
-    
 	_mouseDrag: function(event) {
 
 		//Compute the helpers position
@@ -107,3 +108,5 @@ $.widget("ui.sortable", $.extend({}, $.ui.sortable.prototype, {
         return true;
     }    
 }));
+    
+})(jQuery);

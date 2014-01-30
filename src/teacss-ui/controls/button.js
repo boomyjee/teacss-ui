@@ -2,9 +2,9 @@
 teacss.ui.button = teacss.ui.Button = teacss.ui.Control.extend("teacss.ui.Button",{},{
     init : function(options) {
         var me = this;
-        this._super(options);
+        this._super(teacss.jQuery.extend({text:true},options));
         this.element = teacss.jQuery("<button>")
-            .html(options.label)
+            .text(me.options.label)
             .css({
                 display: (me.options.width=='100%') ? 'block' : 'inline-block',
                 'vertical-align':'bottom',
@@ -12,7 +12,8 @@ teacss.ui.button = teacss.ui.Button = teacss.ui.Control.extend("teacss.ui.Button
                 margin: me.options.margin
             })
             .button({
-                icons:this.options.icons
+                icons:this.options.icons,
+                text: me.options.text
             })
         if (options.click) this.element.click($.proxy(options.click,this));
     }
