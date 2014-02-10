@@ -21,6 +21,32 @@
 .teacss-ui {
     .reset();
     
+    .ui-button-text > input[type="checkbox"] {
+        margin: 0;
+        position: relative;
+        top: 2px;
+    }
+    
+    .ui-dialog {
+        padding: 0.2em;
+    }
+    
+    .ui-dialog .ui-dialog-content {
+        border: none;
+    }
+    
+    .ui-dialog .ui-dialog-buttonpane {
+        border-width: 1px 0 0;
+    }
+    
+    .ui-tabs .ui-tabs-panel {
+        background: transparent;
+    }
+    
+    .ui-front {
+        z-index: 1001;
+    }
+    
     .ui-tabs-nav > li > .ui-icon {
         float: left; 
         margin: 0.6em 0.2em 0 0; 
@@ -198,6 +224,11 @@
     .ui-tabs > .ui-tabs-panel {
         padding: 0;
         overflow: hidden;
+        border-width: 0;
+    }
+    
+    .ui-tabs .ui-tabs-nav li {
+        margin-top: 0px;
     }
     
     .ui-tabs.fixed > .ui-tabs-panel {

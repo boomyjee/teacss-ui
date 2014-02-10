@@ -1,3 +1,5 @@
+(function ($,ui){
+
 teacss.ui.tabPanel = teacss.ui.Panel.extend({
     tabIndex: 0
 },{
@@ -21,8 +23,8 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
                     $(ui.panel).find(".ui-accordion").accordion("resize");
                 },1);
             },
-            select: function (e,ui) { 
-                var tab = $(ui.panel).data("tab");
+            activate: function (e,ui) { 
+                var tab = $(ui.newPanel).data("tab");
                 if (tab) {
                     tab.trigger("select",tab);
                 	me.trigger("select",tab);
@@ -60,6 +62,15 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
             },    
             stop: function (e, ui) {
                 $(this).children().css('width','');
+                // resort panels too
+                var panels = $([]);
+                $(this).children().each(function(){
+                    var href = $(this).find(".ui-tabs-anchor").attr("href");
+                    var panel = me.element.find(href).detach();
+                    panels = panels.add(panel);
+                });
+                me.element.append(panels);
+                me.trigger("sortstop");
             },
             containment: 'parent'
         });
@@ -93,11 +104,22 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
         return this;
     },
     
-    closeTab: function (tab) {
+    count: function () {
+        return this.element.children(".ui-tabs-panel").length;
+    },
+    refresh: function () {
+        this.element.tabs("refresh");
+        this.trigger("refresh");
+    },
+    
+    closeTab: function (tab,silent) {
         var e = {tab:tab,cancel:false};
-        tab.trigger("close",e);
+        if (!silent) tab.trigger("close",e);
         if (!e.cancel) {
-            this.element.tabs("remove","#"+tab.options.id);
+            this.element.find("#"+tab.options.id).remove();
+            this.element.find("a[href=#"+tab.options.id+"]").parent().remove();
+            tab.tabPanel = false;
+            this.refresh();
         }
     },
     addTab: function (tab,index) {
@@ -109,18 +131,27 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
         } else {
             tabTemplate = "<li><a href='#{href}'>#{label}</a></li>"
         }
-        this.element.tabs("option","tabTemplate",tabTemplate);
-        this.element.tabs("add",'#'+id,tab.options.caption || tab.options.label || "Tab "+teacss.ui.tabPanel.tabIndex,index);
-        this.element.find('#'+id).append(tab.element).data("tab",tab);
+        
+        var label = tab.options.caption || tab.options.label || "Tab "+teacss.ui.tabPanel.tabIndex;
+        this.element.find(".ui-tabs-nav").first().append(
+            tab.navElement = $(tabTemplate.replace("#{href}",'#'+id).replace("#{label}",label))
+        );
+        this.element.append(tab.tabElement = $("<div>",{id:id}).append(tab.element).data("tab",tab));
+        this.refresh();
         
         tab.element.css({width:'100%',height:'100%', margin: 0,display:'block'});
         
         tab.options.nested = true;
         tab.options.id = id;
+        tab.tabPanel = this;
+        
+        if (this.count()<2) this.selectTab(tab);
         return tab;
     },
     selectTab: function(tab) {
-        this.element.tabs("select",'#'+tab.options.id);
+        var idx = this.element.find("#"+tab.options.id).index();
+        idx = idx - ( this.element.children().length - this.count() );
+        this.element.tabs( "option", "active", idx);
     },
     prevTab: function () {
         var sel = this.element.tabs("option","selected");
@@ -137,3 +168,5 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
         return this.element.find("> div.ui-tabs-panel").eq(sel).data("tab");
     }
 });
+    
+})(teacss.jQuery,teacss.ui);

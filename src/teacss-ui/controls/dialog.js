@@ -10,17 +10,7 @@ teacss.ui.dialog = teacss.ui.Dialog = teacss.ui.panel.extend({
         var me = this;
         this.element.css("display","");
         this.element.dialog($.extend({},this.options,{
-            create: function(event, ui){
-                $(this).parent().appendTo(teacss.ui.layer);
-                $(this).parent().css("position","");
-                if (me.options.create)
-                    me.options.create.apply(this,arguments);
-            },
-            open: function(event, ui){
-                $('.ui-widget-overlay').appendTo(teacss.ui.layer);
-                if (me.options.open)
-                    me.options.open.apply(this,arguments);
-            },
+            appendTo: "#teacss-layer",
             title: this.options.label
         }));
     },
