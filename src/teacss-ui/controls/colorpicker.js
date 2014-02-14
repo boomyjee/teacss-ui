@@ -34,7 +34,7 @@ teacss.ui.colorPicker = teacss.ui.Colorpicker = teacss.ui.Control.extend("teacss
                     me.setValue(me.value);
                 },
                 onChange: function (hsb, hex, rgb, alpha) {
-                    el = teacss.jQuery(this).data("colorpicker").el;
+                    var el = teacss.jQuery(this).data("colorpicker").el;
                     var color = teacss.Color.functions.rgba(rgb.r,rgb.g,rgb.b,alpha);
                     var s_color = color.toString();
                     teacss.jQuery(el).css("background",s_color);
@@ -46,7 +46,7 @@ teacss.ui.colorPicker = teacss.ui.Colorpicker = teacss.ui.Control.extend("teacss
             })
             teacss.jQuery('#' + teacss.jQuery(me.colorDiv).data('colorpickerId')).mousedown(function(e){
                 e.stopPropagation();
-                return false;
+                // return false;
             })
         })
     }
