@@ -43,10 +43,13 @@ teacss.ui.colorPicker = teacss.ui.Colorpicker = teacss.ui.Control.extend("teacss
                     me.value = s_color;
                     me.change();
                 }
-            })
-            teacss.jQuery('#' + teacss.jQuery(me.colorDiv).data('colorpickerId')).mousedown(function(e){
+            });
+            
+            var cid = teacss.jQuery(me.colorDiv).data('colorpickerId');
+            teacss.jQuery('#' + cid).mousedown(function(e){
                 e.stopPropagation();
-                // return false;
+                if ($(e.target).is("input")) return;
+                return false;
             })
         })
     }

@@ -405,7 +405,7 @@
 				fillRGBFields(col, cal.get(0));
 				fillHexFields(col, cal.get(0));
 				fillHSBFields(col, cal.get(0));
-				setSelector(col, cal.get(0));
+				setSelector(col, cal.get(0),alpha);
 				setHue(col, cal.get(0));
 				setNewColor(col, cal.get(0),alpha);
                 
@@ -465,7 +465,7 @@
 						fillHexFields(options.color, cal.get(0));
                         fillAlphaField(options.alpha, cal.get(0));
 						setHue(options.color, cal.get(0));
-						setSelector(options.color, cal.get(0));
+						setSelector(options.color, cal.get(0),options.alpha);
 						setCurrentColor(options.color, cal.get(0),options.alpha);
 						setNewColor(options.color, cal.get(0),options.alpha);
 						if (options.flat) {
@@ -507,14 +507,17 @@
 					if ($(this).data('colorpickerId')) {
 						var cal = $('#' + $(this).data('colorpickerId'));
 						cal.data('colorpicker').color = col;
+                        cal.data('colorpicker').alpha = alpha;
 						cal.data('colorpicker').origColor = col;
                         cal.data('colorpicker').origAlpha = alpha;
 
 						fillRGBFields(col, cal.get(0));
 						fillHSBFields(col, cal.get(0));
 						fillHexFields(col, cal.get(0));
+                        fillAlphaField(alpha,cal.get(0));
+                        
 						setHue(col, cal.get(0));
-						setSelector(col, cal.get(0));
+						setSelector(col, cal.get(0),alpha);
 						setCurrentColor(col, cal.get(0),alpha);
 						setNewColor(col, cal.get(0),alpha);
 					}

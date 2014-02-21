@@ -12,7 +12,7 @@ teacss.ui.form = teacss.ui.Form = teacss.ui.eventTarget.extend({
         this.registerItems(f);
     },
     
-    registerItems: function (f) {
+    registerItems: function (f,skipSetValue) {
         this.newItems = [];
         var old_active = teacss.ui.form.activeForm;
         teacss.ui.form.activeForm = this;
@@ -21,11 +21,11 @@ teacss.ui.form = teacss.ui.Form = teacss.ui.eventTarget.extend({
         
         for (var i=0;i<this.newItems.length;i++) {
             var item = this.newItems[i];
-            this.registerItem(item);
+            this.registerItem(item,skipSetValue);
         }        
     },
     
-    registerItem: function(item) {
+    registerItem: function(item,skipSetValue) {
         if (item.form) return;
         var me = this;
         me.items.push(item);
@@ -33,7 +33,7 @@ teacss.ui.form = teacss.ui.Form = teacss.ui.eventTarget.extend({
         item.trigger("formRegister");
         if (item.options.name!==undefined) {
             item.change(function(){ me.itemChanged(this); });
-            item.setValue(me.prop(item.options.name));
+            if (!skipSetValue) item.setValue(me.prop(item.options.name));
         }
         if (item.options.formChange) {
             item.options.formChange.call(item,false,'',me.value);
