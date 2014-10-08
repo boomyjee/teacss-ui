@@ -16,6 +16,7 @@ teacss.ui.check = teacss.ui.Check = teacss.ui.Control.extend("teacss.ui.Check",{
                 display: (me.options.width=='100%') ? 'block' : 'inline-block',
                 'vertical-align':'bottom',
                 width: me.options.width=='100%' ? 'auto' : me.options.width,
+                height: me.options.height,
                 margin: me.options.margin
             })
             .append(
