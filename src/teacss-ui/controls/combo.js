@@ -163,8 +163,10 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
             if (options.panelClass) me.itemPanel.addClass(options.panelClass);
 
             setTimeout(function(){
+                if (!teacss.jQuery.isFunction(me.items)) me.refresh();
                 me.itemsArray();
                 me.trigger("open");
+                me.trigger("opened");
                 me.selected_on_open = me.selected;
                 me.setSelected();
                 me.bind("setValue",function(value){
@@ -235,6 +237,7 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
                 });
                 
                 me.setSelected();
+                me.trigger("opened");
             });
         this.updateLabel();
 
@@ -376,5 +379,6 @@ teacss.ui.combo = teacss.ui.Combo = teacss.ui.Control.extend("teacss.ui.Combo",{
     },
     hide : function(e) {
         this.panel.css("display","none");
+        this.trigger("hide");
     }
 })

@@ -5,11 +5,12 @@ teacss.ui.panel = teacss.ui.Panel = teacss.ui.Control.extend("teacss.ui.Panel",{
             'text-align':'left',
             items: [],
             elementTag: "div",
-            padding: 0
+            padding: 0,
+            display: "inline-block"
         },options));
         this.element = teacss.jQuery("<"+this.options.elementTag+">")
             .css({
-                display: 'inline-block',
+                display: this.options.display,
                 width: this.options.width,
                 height: this.options.height,
                 'text-align': this.options['text-align'],

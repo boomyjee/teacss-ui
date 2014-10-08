@@ -6,10 +6,12 @@ teacss.ui.check = teacss.ui.Check = teacss.ui.Control.extend("teacss.ui.Check",{
     },
     init : function(options) {
         var me = this;
-        this._super(options);
+        this._super($.extend({
+            showCheckbox: true
+        },options));
         this.value = options.value || false;
 
-        this.element = teacss.jQuery("<label>")
+        this.element = teacss.jQuery("<label for='check_input'>")
             .css({
                 display: (me.options.width=='100%') ? 'block' : 'inline-block',
                 'vertical-align':'bottom',
@@ -17,15 +19,29 @@ teacss.ui.check = teacss.ui.Check = teacss.ui.Control.extend("teacss.ui.Check",{
                 margin: me.options.margin
             })
             .append(
-                teacss.jQuery("<input type='checkbox'>"),
-                '&nbsp;',
                 me.options.label
-            )
-            .button({
-                icons:this.options.icons
-            })
+            );
+        
 
-        me.input = this.element.find("input")
+        me.checkbox = teacss.jQuery("<input type='checkbox' id='check_input'>");
+        
+        var cnt = this.Class.cnt = (this.Class.cnt || 0)+1;
+        
+        me.element.appendTo("body").attr("for","check_input_"+cnt);
+        me.checkbox.appendTo("body").attr("id","check_input_"+cnt);
+        
+        me.checkbox.button({
+            icons:this.options.icons
+        });
+
+        me.element.detach();
+        
+        if (me.options.showCheckbox) {
+            me.checkbox.attr("class","")        
+            me.element.find(".ui-button-text").prepend(me.checkbox,"&nbsp;");
+        }
+
+        me.input = me.checkbox
             .change(function(){
                 me.value = this.checked;
                 me.trigger("change");

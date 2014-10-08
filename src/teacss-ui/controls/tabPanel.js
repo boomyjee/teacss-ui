@@ -96,10 +96,10 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
     },
     
     push: function (what) {
-        if (what instanceof teacss.ui.Control) {
+        if (arguments.length==1 && what instanceof teacss.ui.Control) {
             this.addTab(what);
         } else {
-            this._super(what);
+            this._super.apply(this,arguments);
         }
         return this;
     },

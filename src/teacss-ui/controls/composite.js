@@ -4,7 +4,7 @@ teacss.ui.composite = teacss.ui.panel.extend({
         
         var items = o.items;
         this._super($.extend({
-            width: '100%', margin: 0, table: false, skipForm: false
+            width: '100%', margin: 0, table: false, skipForm: false, tableLabelWidth: false
         },o,{items:[]}));
         this.options.items = items;
         
@@ -70,10 +70,13 @@ teacss.ui.composite = teacss.ui.panel.extend({
                     }
                     
                     if (me.table) {
+                        var labelTd;
                         me.table.append($("<tr>").append(
-                            $("<td class='ui-composite-label'>").append(tableLabel ? tableLabel.element : null),                        
+                            labelTd = $("<td class='ui-composite-label'>").append(tableLabel ? tableLabel.element : null),                        
                             $("<td class='ui-composite-control'>").append(ctl.element)
                         ));
+                        if (me.options.tableLabelWidth)
+                            labelTd.css({width:me.options.tableLabelWidth});
                         
                         if (cls == teacss.ui.switcher && allObjs) {
                             $.each(ctl.panelList,function(){

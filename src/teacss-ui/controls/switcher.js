@@ -72,7 +72,7 @@ teacss.ui.switcher = teacss.ui.control.extend({
                         value: type
                     })
                 });
-                me.select = teacss.ui.select({items:items,width:'100%',name:"type",preview:false});
+                me.select = teacss.ui.select({items:items,width:'100%',name:"type",preview:false,margin:0});
                 
                 var selectChange = function() {
                     $.each(me.panelList,function(){
@@ -146,7 +146,7 @@ teacss.ui.switcherCombo = teacss.ui.combo.extend({
             types: false,
             repository: false,
             labelPlain: label,
-            labelTpl: label + ": <span class='button-label'>${value?value.type:''}</span>",
+            labelTpl: label + ": <span class='button-label'>${value?value.type:'default'}</span>",
             items: function () {
                 var switcher = this.switcher = teacss.ui.switcher({
                     types:this.options.types,

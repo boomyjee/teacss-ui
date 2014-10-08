@@ -77,7 +77,7 @@ teacss.ui.repeater = teacss.ui.panel.extend({
     
     addElement: function (val) {
         val = val || {};
-        var el = teacss.ui.composite({items:this.options.items,table:this.options.table});
+        var el = teacss.ui.composite({items:this.options.items,table:this.options.table,layout:this.options.layout});
         el.setValue(val);
         var me = this;
         el.bind("change",function(){
@@ -154,4 +154,46 @@ teacss.ui.repeater = teacss.ui.panel.extend({
         });
         if (first) first.select();
     }
+});
+
+teacss.ui.tableRepeater = teacss.ui.repeater.extend({
+    init: function (o) {
+        var $ = teacss.jQuery;
+        this._super($.extend({
+            layout: { margin: 0, width:"100%"}
+        },o));
+        
+        var table = $("<table>").addClass('ui-repeater-container');
+        this.container.replaceWith(table);
+        
+        var tr = $("<tr>").addClass('ui-repeater-item-row').appendTo(table);
+        $.each(this.options.items,function(i,item){
+            tr.append(
+                $("<th>").text(item.tableLabel || "")
+            )
+        });
+        tr.append("<th></th>");
+        
+        this.container = $("<tbody>").appendTo(table);
+    },
+    itemTemplate: function (el) {
+        var $ = teacss.jQuery;
+        var me = this;
+        var closeLink = $("<a href='#' class='ui-icon ui-icon-close'>").click(function(e){
+            e.preventDefault();
+            me.removeElement(el);
+            me.trigger("change");
+        });        
+        
+        var ret = $("<tr>").addClass('ui-repeater-item-row');
+        $.each(el.items,function(){
+            ret.append(
+                $("<td>").append(this.element)
+            );
+        });
+        ret.append(
+            $("<td>").append(closeLink)
+        );
+        return ret;
+    }    
 });

@@ -1457,6 +1457,8 @@ body .ui-tooltip {
 .teacss-ui .color_control {
     background: url('images/colorpicker_background.png') -14px -15px;
     border: 1px solid black;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
 }
 .teacss-ui .button-select-panel {
     color: #000;
@@ -1545,7 +1547,7 @@ body .ui-tooltip {
     padding: 0;
 }
 .teacss-ui .ui-label {
-    padding: 5px 0;
+    padding: 0px 0;
 }
 .teacss-ui .ui-label.ui-disabled {
     opacity: 0.35;
@@ -1577,8 +1579,14 @@ body .ui-tooltip {
     right: 0;
     left: 0;
 }
+.teacss-ui .ui-composite-table table {
+    width: 100%;
+}
 .teacss-ui .ui-composite-label {
     width: 50%;
+}
+.teacss-ui td.ui-composite-control {
+    padding: 2px;
 }
 .teacss-ui .pagination {
     padding: 0.2em 0;
@@ -1621,6 +1629,20 @@ body .ui-tooltip {
 }
 .teacss-ui .ui-repeater.ui-gallery .ui-repeater-item.selected {
     display: block;
+}
+.teacss-ui table.ui-repeater-container {
+    margin: 0 0 10px 0;
+    width: 100%;
+}
+.teacss-ui .ui-repeater-item-row td, .teacss-ui .ui-repeater-item-row th {
+    border: 1px solid #eee;
+}
+.teacss-ui .ui-repeater-item-row th {
+    background: #f5f5f5;
+    padding: 5px 10px;
+}
+.teacss-ui .ui-repeater-item-row td {
+    padding: 10px;
 }
 .teacss-ui .ui-repeater-container {
     clear: both;
