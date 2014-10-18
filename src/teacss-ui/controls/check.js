@@ -6,6 +6,7 @@ teacss.ui.check = teacss.ui.Check = teacss.ui.Control.extend("teacss.ui.Check",{
     },
     init : function(options) {
         var me = this;
+        var $ = teacss.jQuery;
         this._super($.extend({
             showCheckbox: true
         },options));

@@ -1,5 +1,6 @@
 teacss.ui.text = teacss.ui.Control.extend({
     init: function (o) {
+        var $ = teacss.jQuery;
         o = $.extend({
             width: 100
         },o || {});
@@ -37,6 +38,7 @@ teacss.ui.text = teacss.ui.Control.extend({
 
 teacss.ui.textarea = teacss.ui.Control.extend({
     init: function (o) {
+        var $ = teacss.jQuery;
         o = $.extend({
             height: 200
         },o || {});
