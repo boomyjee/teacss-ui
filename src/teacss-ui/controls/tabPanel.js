@@ -126,7 +126,7 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
         if (!(tab instanceof teacss.ui.Control)) tab = teacss.ui.panel(tab);
         var id = 'tab' + teacss.ui.tabPanel.tabIndex++;
         
-        if (tab.tabPanel) tab.tabPanel.close(tab);
+        if (tab.tabPanel) tab.tabPanel.closeTab(tab);
         
         if (tab.options.closable) {
             tabTemplate = "<li><a href='#{href}'>#{label}</a><span class='ui-icon ui-icon-close'>Close</span></li>"
