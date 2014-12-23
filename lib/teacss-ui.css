@@ -1494,7 +1494,7 @@ body .ui-tooltip {
     bottom: 0;
 }
 .teacss-ui .button-select-panel > div > .combo-item:hover {
-    background: #aaa;
+    background-color: #aaa;
 }
 .teacss-ui > .colorpicker {
     position: fixed !important;
@@ -1514,7 +1514,7 @@ body .ui-tooltip {
     vertical-align: middle;
 }
 .teacss-ui .combo-item.selected {
-    background: #f90 !important;
+    background-color: #f90 !important;
 }
 .teacss-ui .combo-label {
     padding-left: 10px;

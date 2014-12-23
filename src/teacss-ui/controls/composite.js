@@ -44,7 +44,11 @@ teacss.ui.composite = teacss.ui.panel.extend({
                     return;
                 }
                 
-                var cls = teacss.ui[this.type];
+                var cls = this.type;
+                if (typeof(cls)=="string" || cls instanceof String) {
+                    cls = teacss.ui[cls];
+                }
+                
                 if (cls) {
                     var margin = me.table ? 0 : "0 0 10px 0";
                     if (cls == teacss.ui.switcher && me.table) {

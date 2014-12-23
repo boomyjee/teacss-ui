@@ -2,6 +2,7 @@ teacss.ui.check = teacss.ui.Check = teacss.ui.Control.extend("teacss.ui.Check",{
     setValue: function (value) {
         this.value = value;
         this.input[0].checked = value;
+        this.input.button("refresh");
         this.trigger('setValue');
     },
     init : function(options) {
