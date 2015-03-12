@@ -28,7 +28,7 @@ teacss.ui.check = teacss.ui.Check = teacss.ui.Control.extend("teacss.ui.Check",{
 
         me.checkbox = teacss.jQuery("<input type='checkbox' id='check_input'>");
         
-        var cnt = this.Class.cnt = (this.Class.cnt || 0)+1;
+        var cnt = teacss.ui.check.cnt = (teacss.ui.check.cnt || 0)+1;
         
         me.element.appendTo("body").attr("for","check_input_"+cnt);
         me.checkbox.appendTo("body").attr("id","check_input_"+cnt);

@@ -156,16 +156,16 @@ teacss.ui.tabPanel = teacss.ui.Panel.extend({
         this.element.tabs( "option", "active", idx);
     },
     prevTab: function () {
-        var sel = this.element.tabs("option","selected");
-        if (sel>0) this.element.tabs("option","selected",sel-1);
+        var sel = this.element.tabs("option","active");
+        if (sel>0) this.element.tabs("option","active",sel-1);
     },
     nextTab: function () {
-        var sel = this.element.tabs("option","selected");
+        var sel = this.element.tabs("option","active");
         var N = this.element.tabs("length");
-        if (sel+1<N) this.element.tabs("option","selected",sel+1);
+        if (sel+1<N) this.element.tabs("option","active",sel+1);
     },
     selectedTab: function () {
-        var sel = this.element.tabs("option","selected");
+        var sel = this.element.tabs("option","active");
         if (sel<0) return false;
         return this.element.find("> div.ui-tabs-panel").eq(sel).data("tab");
     }
