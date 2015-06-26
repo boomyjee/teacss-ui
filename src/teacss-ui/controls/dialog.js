@@ -23,6 +23,6 @@ teacss.ui.dialog = teacss.ui.Dialog = teacss.ui.panel.extend({
     },
     
     isOpen: function () {
-        this.element.dialog("isOpen");
+        return this.element.dialog("isOpen");
     }
 })

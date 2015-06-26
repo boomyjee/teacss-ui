@@ -1459,7 +1459,7 @@ body .ui-tooltip {
     padding: 5px 5px 5px 5px;
 }
 .teacss-ui .color_control {
-    background: url('images/colorpicker_background.png') -14px -15px;
+    background: url(images/colorpicker_background.png) -14px -15px;
     border: 1px solid black;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
